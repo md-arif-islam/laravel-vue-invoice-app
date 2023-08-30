@@ -6,7 +6,9 @@
                     <h2 class="invoice__title">Invoices</h2>
                 </div>
                 <div>
-                    <a class="btn btn-secondary"> New Invoice </a>
+                    <a class="btn btn-secondary" @click="createInvoice">
+                        New Invoice
+                    </a>
                 </div>
             </div>
 
@@ -88,6 +90,9 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 let invoices = ref([]);
 let searchInvoiceRef = ref([]);
@@ -97,7 +102,7 @@ const getInvoices = async () => {
         let response = await axios.get("/api/get_all_invoice");
         invoices.value = response.data.invoices;
     } catch (error) {
-        console.error("Error fetching invoices:", error);
+        console.error("Error:", error);
     }
 };
 
@@ -108,7 +113,16 @@ const searchInvoices = async () => {
         );
         invoices.value = response.data.invoices;
     } catch (error) {
-        console.error("Error searching invoices:", error);
+        console.error("Error:", error);
+    }
+};
+
+const createInvoice = async () => {
+    try {
+        let form = await axios.get("/api/create_invoice");
+        router.push("/invoice/new");
+    } catch (error) {
+        console.error("Error:", error);
     }
 };
 
