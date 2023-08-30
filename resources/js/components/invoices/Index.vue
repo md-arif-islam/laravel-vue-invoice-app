@@ -43,6 +43,8 @@
                             class="table--search--input"
                             type="text"
                             placeholder="Search invoice"
+                            v-model="searchInvoiceRef"
+                            @keyup="searchInvoices()"
                         />
                     </div>
                 </div>
@@ -88,11 +90,26 @@
 import { onMounted, ref } from "vue";
 
 let invoices = ref([]);
+let searchInvoiceRef = ref([]);
 
 const getInvoices = async () => {
-    let response = await axios.get("/api/get_all_invoice");
-    console.log(response);
-    invoices.value = response.data.invoices;
+    try {
+        let response = await axios.get("/api/get_all_invoice");
+        invoices.value = response.data.invoices;
+    } catch (error) {
+        console.error("Error fetching invoices:", error);
+    }
+};
+
+const searchInvoices = async () => {
+    try {
+        let response = await axios.get(
+            `/api/search_invoice?s=${searchInvoiceRef.value}`
+        );
+        invoices.value = response.data.invoices;
+    } catch (error) {
+        console.error("Error searching invoices:", error);
+    }
 };
 
 onMounted(async () => {
