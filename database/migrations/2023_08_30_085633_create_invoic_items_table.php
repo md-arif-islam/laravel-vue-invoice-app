@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('counters', function (Blueprint $table) {
+        Schema::create('invoice_items', function (Blueprint $table) {
             $table->id();
-            $table->string('key')->unique();
-            $table->string('prefix');
-            $table->string('value');
+            $table->integer('invoice_id');
+            $table->integer('product_id');
+            $table->double('unit_price');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('counters');
+        Schema::dropIfExists('invoic_items');
     }
 };
