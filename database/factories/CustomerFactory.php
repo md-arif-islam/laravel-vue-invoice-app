@@ -17,10 +17,10 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            'f_name'=>$this->faker->name,
-            'l_name'=>$this->faker->name,
-            'email'=>$this->faker->email,
-            'address'=>$this->faker->address,
+            'f_name' => $this->faker->firstName,
+            'l_name' => $this->faker->lastName,
+            'email' => $this->faker->unique()->safeEmail,
+            'address' => $this->faker->address,
         ];
     }
 }
